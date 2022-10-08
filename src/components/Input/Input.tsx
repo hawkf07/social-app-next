@@ -6,6 +6,7 @@ interface ComponentProps {
    * change handler take any @params value
    */
   onChange: (val: any) => void;
+  placeholder: string;
 }
 export default function Input(props: ComponentProps) {
   const [inputType] = useState(props.type);
@@ -18,6 +19,7 @@ export default function Input(props: ComponentProps) {
   return (
     <>
       <input
+        placeholder={props.placeholder}
         type={inputType}
         onChange={handleChange}
         className="rounded-md border-2 p-2 focus:border-4 md:w-full mobile:w-full"

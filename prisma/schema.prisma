@@ -53,6 +53,9 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    postsAuthor   Post?     @relation("postAuthor")
+    Posts         Post[]
+    Comment       Comment[] @relation("commentAuthor")
 }
 
 model VerificationToken {
@@ -61,4 +64,21 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Post {
+    id          String  @id @default(cuid())
+    title       String
+    description String
+    author      User?   @relation("postAuthor", fields: [id], references: [id])
+    authorName  String
+    User        User?   @relation(fields: [userId], references: [id])
+    userId      String?
+}
+
+model Comment {
+    id            String @id @default(cuid())
+    description   String
+    author        User?  @relation("commentAuthor", fields: [id], references: [id])
+    commentAuthor String
 }
