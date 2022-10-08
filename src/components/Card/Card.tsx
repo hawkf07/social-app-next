@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { atom, useAtom } from "jotai";
 
 import { trpc } from "../../utils/trpc";
 import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
@@ -25,6 +26,36 @@ type CardVotesType = {
   };
   onDecrementVotesClick: () => void;
   onIncrementVotesClick: () => void;
+};
+
+const Votes = atom({
+  votesCount: 10,
+  votesType: 0,
+});
+
+const UpVotesComponent = () => {
+  const [votes, setVotes] = useAtom(Votes);
+  const incrementVotes = () =>
+    setVotes((prevState) =>
+      prevState.votesType === 1
+        ? { ...prevState, votesType: 0 }
+        : { ...prevState, votesType: 1 }
+    );
+
+  const decrementVotes = () =>
+    setVotes((prevState) =>
+      prevState.votesType === -1
+        ? { ...prevState, votesType: 0 }
+        : { ...prevState, votesType: -1 }
+    );
+
+  return (
+    <>
+      <button onClick={() => incrementVotes()}>+1</button>
+      <button onClick={() => decrementVotes()}>-1</button>
+      {votes.votesCount + votes.votesType}
+    </>
+  );
 };
 
 export function Card({ children }: CardType) {

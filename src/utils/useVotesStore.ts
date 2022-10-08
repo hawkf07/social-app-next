@@ -14,7 +14,6 @@ const useVotesStore = create<useVotesStoreType>((set, get) => {
       const { votesCount, voteType } = get();
       set({
         voteType: voteType == 1 ? 0 : 1,
-        votesCount: votesCount + 1,
       });
     },
     decrementVotes() {

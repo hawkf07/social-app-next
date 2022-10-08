@@ -14,22 +14,34 @@ const postsRouter = createRouter().query("get-all", {
   },
 });
 
-const createPostsRouter = createProtectedRouter().query("create-post", {
-  input: z.object({
-    title: z.string(),
-    description: z.string(),
-  }),
-  async resolve({ ctx, input, type }) {
-    const createPosts = await ctx.prisma.user.create({
-      data: {
-        Posts: {
-          create: {
-            title: input.title,
-            description: input.description,
+const createPostsRouter = createProtectedRouter()
+  .mutation("create-post", {
+    input: z.object({
+      title: z.string(),
+      description: z.string(),
+    }),
+    async resolve({ ctx, input, type }) {
+      const createPosts = await ctx.prisma.user.update({
+        data: {
+          Posts: {
+            create: {
+              description: input.description,
+              title: input.title,
+              votes: 0,
+              votesType: "increment",
+            },
           },
         },
-      },
-    });
-  },
-});
-export { postsRouter };
+        where: {
+          id: "cl8zqs19u00009sjp4fkymkq4",
+        },
+      });
+      return createPosts;
+    },
+  })
+  .query("get-all-user", {
+    async resolve({ ctx }) {
+      return ctx.prisma.user.findMany();
+    },
+  });
+export { postsRouter, createPostsRouter };

@@ -1,4 +1,7 @@
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { FaUserCircle } from "@react-icons/all-files/fa/FaUserCircle";
+import { FaDoorClosed } from "@react-icons/all-files/fa/FaDoorClosed";
+import { FiLogOut } from "@react-icons/all-files/fi/FiLogOut";
 import { useState } from "react";
 import { Form } from "../Form/Form";
 import Input from "../Input/Input";
@@ -6,6 +9,7 @@ import Input from "../Input/Input";
 export function Navbar() {
   const [inputVal, setInputVal] = useState("");
   const changeHandler = (evt: string) => setInputVal(evt);
+  const { data } = useSession();
   return (
     <header>
       <nav className="flex h-[10vh] items-center justify-around shadow-md">
@@ -19,9 +23,15 @@ export function Navbar() {
             type="input"
           />
         </Form>
-        <button className="p-3 text-3xl md:hidden" onClick={() => signIn()}>
-          Login
-        </button>
+        {data ? (
+          <button className="p-3 text-3xl" onClick={() => signIn()}>
+            <FiLogOut />
+          </button>
+        ) : (
+          <button>
+            <FaUserCircle />
+          </button>
+        )}
       </nav>
     </header>
   );

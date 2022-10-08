@@ -7,6 +7,7 @@ import { Navbar } from "../components/Navbar";
 import { trpc } from "../utils/trpc";
 import { useVotesStore } from "../utils/useVotesStore";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
@@ -14,6 +15,11 @@ const Home: NextPage = () => {
   const { decrementVotes, incrementVotes, votesCount, voteType } =
     useVotesStore();
 
+  const [descriptionText, setDescriptionText] = useState("");
+  const [titleText, setTitleText] = useState("");
+
+  const postMutation = trpc.useMutation(["posts.create-post"]);
+  const postList = trpc.useQuery(["posts.get-all"]);
   return (
     <>
       <Head>
@@ -22,7 +28,33 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="flex items-center justify-center p-5">
+      <main className="flex flex-col items-center justify-center p-5">
+        <form
+          className="flex flex-col items-center "
+          onSubmit={(e) => {
+            e.preventDefault();
+            postMutation.mutate({
+              title: titleText,
+              description: descriptionText,
+            });
+          }}
+        >
+          <h1> Create Posts </h1>
+          <input
+            className="border-2 shadow"
+            type="text"
+            onChange={(e) => setTitleText(e.target.value)}
+          />
+          <textarea
+            className="border-2 shadow"
+            value={descriptionText}
+            onChange={(e) => setDescriptionText(e.target.value)}
+          ></textarea>
+          <button type="submit" className="bg-blue-400 p-3 px-5">
+            submit
+          </button>
+        </form>
+
         <Card>
           <CardVotes
             votes={votesCount}
@@ -32,12 +64,14 @@ const Home: NextPage = () => {
           <CardBody
             author="fikri"
             datePosted="4h ago"
-            description={<>Lorem, ipsum.</>}
+            description={<>Hello World from title</>}
             title="this is the title"
             totalCommentCount={10}
           />
         </Card>
-        {session.data?.user?.name}
+        {postList?.data.map((item) => {
+          return <>{item.title}</>;
+        })}
       </main>
     </>
   );
