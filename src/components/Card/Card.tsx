@@ -33,7 +33,7 @@ const Votes = atom({
   votesType: 0,
 });
 
-const UpVotesComponent = () => {
+export const VotesComponent = () => {
   const [votes, setVotes] = useAtom(Votes);
   const incrementVotes = () =>
     setVotes((prevState) =>
@@ -62,7 +62,7 @@ export function Card({ children }: CardType) {
   const hello = trpc.useQuery(["example.hello", { text: "World from fikri" }]);
 
   return (
-    <div className="max-w-screen container flex min-h-min justify-around gap-5 rounded bg-white p-10 shadow-xl">
+    <div className="max-w-screen container flex min-h-min flex-col justify-around gap-5 rounded p-10 ">
       {children}
     </div>
   );
@@ -77,7 +77,7 @@ export const CardBody: React.FC<CardBodyType> = ({
 }) => {
   return (
     <>
-      <div className="min-w-2/5 flex w-full flex-col justify-center gap-3 ">
+      <div className="min-w-2/5 flex w-full flex-col justify-center gap-3 bg-white p-5 shadow-xl ">
         <header>
           <h1 className="text-3xl">{title}</h1>
         </header>

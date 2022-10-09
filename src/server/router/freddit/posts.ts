@@ -6,7 +6,11 @@ import z, { any } from "zod";
 const postsRouter = createRouter().query("get-all", {
   async resolve({ ctx }) {
     try {
-      const getAllPosts = await ctx.prisma.post.findMany();
+      const getAllPosts = await ctx.prisma.post.findMany({
+        include: {
+          User: true,
+        },
+      });
       return getAllPosts;
     } catch (error) {
       console.log(error);
@@ -14,34 +18,27 @@ const postsRouter = createRouter().query("get-all", {
   },
 });
 
-const createPostsRouter = createProtectedRouter()
-  .mutation("create-post", {
-    input: z.object({
-      title: z.string(),
-      description: z.string(),
-    }),
-    async resolve({ ctx, input, type }) {
-      const createPosts = await ctx.prisma.user.update({
-        data: {
-          Posts: {
-            create: {
-              description: input.description,
-              title: input.title,
-              votes: 0,
-              votesType: "increment",
-            },
+const createPostsRouter = createProtectedRouter().mutation("create-post", {
+  input: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+  async resolve({ ctx, input, type }) {
+    const createPosts = await ctx.prisma.user.update({
+      data: {
+        Posts: {
+          create: {
+            description: input.title,
+            title: input.title,
           },
         },
-        where: {
-          id: "cl8zqs19u00009sjp4fkymkq4",
-        },
-      });
-      return createPosts;
-    },
-  })
-  .query("get-all-user", {
-    async resolve({ ctx }) {
-      return ctx.prisma.user.findMany();
-    },
-  });
+      },
+      where: {
+        id: "cl90i0gsk00089swcwtxpaef6",
+      },
+    });
+    return createPosts;
+  },
+});
+
 export { postsRouter, createPostsRouter };

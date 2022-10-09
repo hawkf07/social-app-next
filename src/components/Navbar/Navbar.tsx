@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUserCircle } from "@react-icons/all-files/fa/FaUserCircle";
 import { FaDoorClosed } from "@react-icons/all-files/fa/FaDoorClosed";
 import { FiLogOut } from "@react-icons/all-files/fi/FiLogOut";
@@ -24,11 +24,11 @@ export function Navbar() {
           />
         </Form>
         {data ? (
-          <button className="p-3 text-3xl" onClick={() => signIn()}>
+          <button className="p-3 text-3xl" onClick={() => signOut()}>
             <FiLogOut />
           </button>
         ) : (
-          <button>
+          <button onClick={() => signIn()}>
             <FaUserCircle />
           </button>
         )}

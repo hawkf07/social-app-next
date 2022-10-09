@@ -10,16 +10,12 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
-  const session = useSession();
-  const { decrementVotes, incrementVotes, votesCount, voteType } =
-    useVotesStore();
-
   const [descriptionText, setDescriptionText] = useState("");
   const [titleText, setTitleText] = useState("");
 
   const postMutation = trpc.useMutation(["posts.create-post"]);
   const postList = trpc.useQuery(["posts.get-all"]);
+  console.log(postList);
   return (
     <>
       <Head>
@@ -56,22 +52,23 @@ const Home: NextPage = () => {
         </form>
 
         <Card>
-          <CardVotes
-            votes={votesCount}
-            onDecrementVotesClick={decrementVotes}
-            onIncrementVotesClick={incrementVotes}
-          />
-          <CardBody
-            author="fikri"
-            datePosted="4h ago"
-            description={<>Hello World from title</>}
-            title="this is the title"
-            totalCommentCount={10}
-          />
+          {postList ? (
+            postList?.data?.map((item) => {
+              console.log(item);
+              return (
+                <CardBody
+                  author={item!.User.name}
+                  datePosted={item.datePosted.toLocaleDateString()}
+                  description={item.description}
+                  title={item.title}
+                  totalCommentCount={item.votes}
+                />
+              );
+            })
+          ) : (
+            <> There is an Error</>
+          )}
         </Card>
-        {postList?.data.map((item) => {
-          return <>{item.title}</>;
-        })}
       </main>
     </>
   );
