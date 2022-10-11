@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #f0f5fa;
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl font-medium;
+  }
+
+  html {
+    @apply font-["Roboto"] dark:bg-gray-800 dark:text-gray-200;
+  }
+
+  /* ... */
 }
