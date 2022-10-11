@@ -1,14 +1,16 @@
 import { FC, ReactNode } from "react";
-import {Navbar} '../Navbar'
+import { Navbar } from "../Navbar";
 interface LayoutType {
   children: ReactNode;
 }
 
 const Layout: FC<LayoutType> = ({ children }) => {
   return (
-    <>
+    <div>
       <Navbar />
-      {children}
-    </>
+      <div className="p-3">{children}</div>
+    </div>
   );
 };
+
+export { Layout };

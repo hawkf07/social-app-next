@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 
 interface ComponentProps {
   type: string;
@@ -22,7 +23,7 @@ export default function Input(props: ComponentProps) {
         placeholder={props.placeholder}
         type={inputType}
         onChange={handleChange}
-        className="rounded-md border-2 p-2 focus:border-4 md:w-full mobile:w-full"
+        className=" p-1 text-gray-800 md:w-96 mobile:w-full"
         value={formInputValue}
         name="input-form"
       />
