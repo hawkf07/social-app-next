@@ -9,6 +9,7 @@ import Input from "../Input/Input";
 import { useVotesStore } from "../../utils/useVotesStore";
 import { format, formatDistance, formatRelative } from "date-fns";
 import { useRouter } from "next/router";
+import Link from "next/link";
 type CardType = {
   children: React.ReactNode;
 };
@@ -84,22 +85,21 @@ export const CardBody: React.FC<CardBodyType> = ({
   const formattedDatePosted = formatRelative(datePosted, new Date());
   return (
     <>
-      <div
-        onClick={() => onClickHandler && onClickHandler()}
-        className="min-w-2/5 flex w-full flex-col  justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 "
-      >
-        <header>
-          <h1 className="text-3xl">{title}</h1>
-        </header>
-        <div className="flex flex-col  ">
-          <p className="text-xl">{description}</p>
+      <Link href={`/posts/${id}`} prefetch={true}>
+        <div className="min-w-2/5 flex w-full flex-col  justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 ">
+          <header>
+            <h1 className="text-3xl">{title}</h1>
+          </header>
+          <div className="flex flex-col  ">
+            <p className="text-xl">{description}</p>
+          </div>
+          <div className="flex gap-3 border-t-2">
+            <p>author : {author}</p>
+            <p>date posted: {formattedDatePosted}</p>
+            <p>comments: {totalCommentCount}</p>
+          </div>
         </div>
-        <div className="flex gap-3 border-t-2">
-          <p>author : {author}</p>
-          <p>date posted: {formattedDatePosted}</p>
-          <p>comments: {totalCommentCount}</p>
-        </div>
-      </div>
+      </Link>
     </>
   );
 };

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Form } from "../Form/Form";
 import Input from "../Input/Input";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
+import Link from "next/link";
 
 export function Navbar() {
   const [inputVal, setInputVal] = useState("");
@@ -15,9 +16,9 @@ export function Navbar() {
     <div className="w-full bg-gray-700">
       <nav className="mx-3 flex h-[10vh] items-center justify-between ">
         <div className="flex w-2/12 items-center justify-around">
-          <a href="#" className="text-2xl uppercase">
-            Sciaa
-          </a>
+          <Link className="text-2xl uppercase" href="/">
+            <a>Sciaa</a>
+          </Link>
           <h2>Home</h2>
         </div>
         <Form className="flex w-3/5 items-center justify-center ">
