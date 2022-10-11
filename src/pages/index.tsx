@@ -10,12 +10,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const Home: NextPage = () => {
-  const [descriptionText, setDescriptionText] = useState("");
-  const [titleText, setTitleText] = useState("");
-
-  const postMutation = trpc.useMutation(["posts.create-post"]);
   const postList = trpc.useQuery(["posts.get-all"]);
-  console.log(postList);
   return (
     <>
       <Head>
@@ -24,41 +19,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="flex flex-col items-center justify-center p-5">
-        <form
-          className="flex flex-col items-center "
-          onSubmit={(e) => {
-            e.preventDefault();
-            postMutation.mutate({
-              title: titleText,
-              description: descriptionText,
-            });
-          }}
-        >
-          <h1> Create Posts </h1>
-          <input
-            className="border-2 shadow"
-            type="text"
-            onChange={(e) => setTitleText(e.target.value)}
-          />
-          <textarea
-            className="border-2 shadow"
-            value={descriptionText}
-            onChange={(e) => setDescriptionText(e.target.value)}
-          ></textarea>
-          <button type="submit" className="bg-blue-400 p-3 px-5">
-            submit
-          </button>
-        </form>
-
+      <main className="flex flex-col p-2">
         <Card>
           {postList ? (
             postList?.data?.map((item) => {
               console.log(item);
               return (
                 <CardBody
-                  author={item!.User.name}
-                  datePosted={item.datePosted.toLocaleDateString()}
+                  author={item!.User!.name}
+                  datePosted={item.datePosted}
                   description={item.description}
                   title={item.title}
                   totalCommentCount={item.votes}
@@ -66,7 +35,7 @@ const Home: NextPage = () => {
               );
             })
           ) : (
-            <> There is an Error</>
+            <> There is an Error,Check your connection</>
           )}
         </Card>
       </main>

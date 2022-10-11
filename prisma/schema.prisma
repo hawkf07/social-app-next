@@ -56,15 +56,6 @@ model User {
   Posts         Post[]
   Comment       Comment[] @relation("commentAuthor")
 }
-
-model Subreddit {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Posts     Post[]
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -94,3 +85,14 @@ model Comment {
   updateAt    DateTime @updatedAt
   createdAt   DateTime @default(now())
 }
+
+
+model Subreddit {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Posts     Post[]
+  imageBanner Bytes
+}
+

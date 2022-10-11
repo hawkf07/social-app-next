@@ -12,10 +12,10 @@ type CardType = {
 };
 
 type CardBodyType = {
-  title: string;
+  title: string | null;
   description: string | JSX.Element;
-  author: string;
-  datePosted: string;
+  author: string | null;
+  datePosted: string | Date | null;
   totalCommentCount: number;
 };
 
@@ -62,7 +62,7 @@ export function Card({ children }: CardType) {
   const hello = trpc.useQuery(["example.hello", { text: "World from fikri" }]);
 
   return (
-    <div className="max-w-screen container flex min-h-min flex-col justify-around gap-5 rounded p-10 ">
+    <div className="max-w-screen container flex min-h-min flex-col justify-around gap-5 rounded p-3 ">
       {children}
     </div>
   );
@@ -75,18 +75,25 @@ export const CardBody: React.FC<CardBodyType> = ({
   title,
   totalCommentCount,
 }) => {
+  const formatter = new Intl.RelativeTimeFormat();
+
+  const differencePosted = new Date() - datePosted;
+  const formattedDatePosted = formatter.format(
+    -differencePosted / (100 * 60 * 60 * 24),
+    "days"
+  );
   return (
     <>
-      <div className="min-w-2/5 flex w-full flex-col justify-center gap-3 bg-white p-5 shadow-xl ">
+      <div className="min-w-2/5 flex w-full flex-col justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 ">
         <header>
           <h1 className="text-3xl">{title}</h1>
         </header>
-        <div className="flex flex-col  text-gray-600">
+        <div className="flex flex-col  ">
           <p className="text-xl">{description}</p>
         </div>
         <div className="flex gap-3 border-t-2">
           <p>author : {author}</p>
-          <p>date posted: {datePosted}</p>
+          <p>date posted: {formattedDatePosted}</p>
           <p>comments: {totalCommentCount}</p>
         </div>
       </div>
