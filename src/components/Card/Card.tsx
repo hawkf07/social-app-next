@@ -7,6 +7,8 @@ import { FaArrowDown } from "@react-icons/all-files/fa/FaArrowDown";
 import { Form } from "../Form/Form";
 import Input from "../Input/Input";
 import { useVotesStore } from "../../utils/useVotesStore";
+import { format, formatDistance, formatRelative } from "date-fns";
+import { useRouter } from "next/router";
 type CardType = {
   children: React.ReactNode;
 };
@@ -15,8 +17,10 @@ type CardBodyType = {
   title: string | null;
   description: string | JSX.Element;
   author: string | null;
-  datePosted: string | Date | null;
+  id: string;
+  datePosted: Date | number;
   totalCommentCount: number;
+  onClickHandler: () => void;
 };
 
 type CardVotesType = {
@@ -59,10 +63,8 @@ export const VotesComponent = () => {
 };
 
 export function Card({ children }: CardType) {
-  const hello = trpc.useQuery(["example.hello", { text: "World from fikri" }]);
-
   return (
-    <div className="max-w-screen container flex min-h-min flex-col justify-around gap-5 rounded p-3 ">
+    <div className="max-w-screen container flex min-h-min flex-col items-center justify-center gap-5 rounded p-3 ">
       {children}
     </div>
   );
@@ -73,18 +75,19 @@ export const CardBody: React.FC<CardBodyType> = ({
   datePosted,
   description,
   title,
+  id,
   totalCommentCount,
+  onClickHandler,
 }) => {
-  const formatter = new Intl.RelativeTimeFormat();
+  const router = useRouter();
 
-  const differencePosted = new Date() - datePosted;
-  const formattedDatePosted = formatter.format(
-    -differencePosted / (100 * 60 * 60 * 24),
-    "days"
-  );
+  const formattedDatePosted = formatRelative(datePosted, new Date());
   return (
     <>
-      <div className="min-w-2/5 flex w-full flex-col justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 ">
+      <div
+        onClick={() => onClickHandler && onClickHandler()}
+        className="min-w-2/5 flex w-full flex-col  justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 "
+      >
         <header>
           <h1 className="text-3xl">{title}</h1>
         </header>
