@@ -3,21 +3,38 @@ import z, { any } from "zod";
 /**
  * create router for posts operation
  */
-const postsRouter = createRouter().query("get-all", {
-  async resolve({ ctx }) {
-    try {
-      const getAllPosts = await ctx.prisma.post.findMany({
-        include: {
-          User: true,
-        },
-      });
-      return getAllPosts;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-});
-
+const postsRouter = createRouter()
+  .query("get-all", {
+    async resolve({ ctx }) {
+      try {
+        const getAllPosts = await ctx.prisma.post.findMany({
+          include: {
+            User: true,
+          },
+        });
+        return getAllPosts;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  })
+  .query("get-by-id", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      try {
+        const getPostById = await ctx.prisma.post.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+        return getPostById;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 const createPostsRouter = createProtectedRouter().mutation("create-post", {
   input: z.object({
     title: z.string(),
@@ -28,17 +45,16 @@ const createPostsRouter = createProtectedRouter().mutation("create-post", {
       data: {
         Posts: {
           create: {
-            description: input.title,
+            description: input.description,
             title: input.title,
           },
         },
       },
       where: {
-        id: "cl90i0gsk00089swcwtxpaef6",
+        id: "cl948nnjm00n19shj7490nxs9",
       },
     });
     return createPosts;
   },
 });
-
 export { postsRouter, createPostsRouter };
