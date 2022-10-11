@@ -7,10 +7,13 @@ import { Navbar } from "../components/Navbar";
 import { trpc } from "../utils/trpc";
 import { useVotesStore } from "../utils/useVotesStore";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const postList = trpc.useQuery(["posts.get-all"]);
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -19,7 +22,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="flex flex-col p-2">
+      <main className="flex flex-col items-center p-2">
         <Card>
           {postList ? (
             postList?.data?.map((item) => {
@@ -27,10 +30,12 @@ const Home: NextPage = () => {
               return (
                 <CardBody
                   author={item!.User!.name}
+                  id={item.id}
                   datePosted={item.datePosted}
                   description={item.description}
                   title={item.title}
                   totalCommentCount={item.votes}
+                  onClickHandler={() => router.push(`/posts/${item.id}`)}
                 />
               );
             })
