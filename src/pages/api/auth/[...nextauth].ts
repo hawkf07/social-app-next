@@ -40,8 +40,13 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const User = { name: "AOI", email: "Hello@email.com" };
+        try{
+        const User = { name: "AOI", email: "Hello@email.com",password:"something1234" }; 
         return User;
+        }
+        catch(error){
+          console.log(error)
+        }
       },
     }),
     // ...add more providers here

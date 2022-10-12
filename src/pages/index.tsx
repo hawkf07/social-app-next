@@ -27,7 +27,6 @@ const Home: NextPage = () => {
           <Card>
             {postList ? (
               postList?.data?.map((item) => {
-                console.log(item);
                 return (
                   <CardBody
                     author={item!.User!.name}

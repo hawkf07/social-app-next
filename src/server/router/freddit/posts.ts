@@ -60,5 +60,40 @@ const createPostsRouter = createProtectedRouter().mutation("create-post", {
     });
     return createPosts;
   },
-});
+}).mutation("create-subreddit-post", {
+  input: z.object({
+    title:z.string(),
+    description:z.string(),
+    id:z.string()
+  }),
+  async resolve ({ctx,input}) {
+    const createSubPost = await ctx.prisma.subreddit.update({
+      data:{
+        Posts:{
+          create:{
+            title:input.title,
+            description:input.title,
+          }
+        }
+      },
+     where:{
+        id:input.id
+      } 
+    })
+  }
+}).mutation("create-subreddit",{
+  input : z.object({
+    name:z.string(),
+    description:z.string().max(300).min(10)
+  }),
+  async resolve({ctx,prisma,input}) {
+    const createSubrreddit = await ctx.prisma.subreddit.create({
+      data: {
+        name: input.name,
+        description:input.description,
+      }
+    })
+  }
+})
+;
 export { postsRouter, createPostsRouter };

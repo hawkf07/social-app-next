@@ -40,6 +40,7 @@ export function Navbar() {
           </button>
         ) : (
           <button onClick={() => signIn()}>
+
             <FaUserCircle />
           </button>
         )}

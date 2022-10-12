@@ -90,6 +90,7 @@ model Comment {
 model Subreddit {
   id        String   @id @default(cuid())
   name      String
+  description String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Posts     Post[]
