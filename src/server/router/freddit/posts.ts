@@ -10,7 +10,11 @@ const postsRouter = createRouter()
         const getAllPosts = await ctx.prisma.post.findMany({
           include: {
             User: true,
+
           },
+          orderBy: {
+            datePosted: "desc"
+          }
         });
         return getAllPosts;
       } catch (error) {
@@ -51,7 +55,7 @@ const createPostsRouter = createProtectedRouter().mutation("create-post", {
         },
       },
       where: {
-        id: "cl948nnjm00n19shj7490nxs9",
+        id: ctx.session.user.id,
       },
     });
     return createPosts;
