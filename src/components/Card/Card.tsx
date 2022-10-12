@@ -2,8 +2,8 @@ import { useState } from "react";
 import { atom, useAtom } from "jotai";
 
 import { trpc } from "../../utils/trpc";
-import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
-import { FaArrowDown } from "@react-icons/all-files/fa/FaArrowDown";
+import { HiOutlineArrowUp } from "@react-icons/all-files/hi/HiOutlineArrowUp";
+import { HiOutlineArrowDown } from "@react-icons/all-files/hi/HiOutlineArrowDown";
 import { Form } from "../Form/Form";
 import Input from "../Input/Input";
 import { useVotesStore } from "../../utils/useVotesStore";
@@ -38,31 +38,6 @@ const Votes = atom({
   votesType: 0,
 });
 
-export const VotesComponent = () => {
-  const [votes, setVotes] = useAtom(Votes);
-  const incrementVotes = () =>
-    setVotes((prevState) =>
-      prevState.votesType === 1
-        ? { ...prevState, votesType: 0 }
-        : { ...prevState, votesType: 1 }
-    );
-
-  const decrementVotes = () =>
-    setVotes((prevState) =>
-      prevState.votesType === -1
-        ? { ...prevState, votesType: 0 }
-        : { ...prevState, votesType: -1 }
-    );
-
-  return (
-    <>
-      <button onClick={() => incrementVotes()}>+1</button>
-      <button onClick={() => decrementVotes()}>-1</button>
-      {votes.votesCount + votes.votesType}
-    </>
-  );
-};
-
 export function Card({ children }: CardType) {
   return (
     <div className="max-w-screen container flex min-h-min flex-col items-center justify-center gap-5 rounded p-3 ">
@@ -80,20 +55,19 @@ export const CardBody: React.FC<CardBodyType> = ({
   totalCommentCount,
   onClickHandler,
 }) => {
-  const router = useRouter();
 
   const formattedDatePosted = formatRelative(datePosted, new Date());
   return (
     <>
-      <Link href={`/posts/${id}`} prefetch={true}>
-        <div className="min-w-2/5 flex w-full flex-col  justify-center gap-3  rounded p-3 text-gray-200 shadow  dark:bg-gray-700 dark:shadow-gray-500 ">
+      <Link className="" href={`/posts/${id}`} prefetch={true}>
+        <div className="min-w-2/5 flex w-full cursor-pointer flex-col  justify-center gap-3  rounded p-3 text-gray-200 dark:bg-white/10">
           <header>
             <h1 className="text-3xl">{title}</h1>
           </header>
-          <div className="flex flex-col  ">
-            <p className="text-xl">{description}</p>
+          <div className="flex flex-col  text-gray-300">
+            <p className="text-gray-400">{description}</p>
           </div>
-          <div className="flex gap-3 border-t-2">
+          <div className="flex gap-3 border-t-2 border-white/20 font-light text-gray-400">
             <p>author : {author}</p>
             <p>date posted: {formattedDatePosted}</p>
             <p>comments: {totalCommentCount}</p>
@@ -104,16 +78,16 @@ export const CardBody: React.FC<CardBodyType> = ({
   );
 };
 
-export const CardVotes = ({}) => {
+export const CardVotes = ({ }) => {
   return (
     <>
       <div className="flex w-12 flex-col items-center justify-center gap-5">
         <button className="focus-within:text-blue-400">
-          <FaArrowUp />
+          <HiOutlineArrowUp />
         </button>
         <p className="text-2xl"></p>
         <button className="focus-within:text-blue-400 ">
-          <FaArrowDown />
+          <HiOutlineArrowDown />
         </button>
       </div>
     </>

@@ -12,6 +12,8 @@ import { trpc } from "../../utils/trpc";
 import { format, formatRelative, intlFormatDistance, subDays } from "date-fns";
 import { useFormatDate } from "../../utils/useFormatDate";
 
+import { HiOutlineArrowUp } from "@react-icons/all-files/hi/HiOutlineArrowUp";
+import { HiOutlineArrowDown } from "@react-icons/all-files/hi/HiOutlineArrowDown";
 const Post: NextPage = () => {
   const { id } = useRouter().query;
   const { data } = trpc.useQuery(["posts.get-by-id", { id: id }]);
@@ -23,14 +25,14 @@ const Post: NextPage = () => {
         <title>{data?.title}</title>
         <meta name="description" content={data?.title} />
       </Head>
-      <div className="container flex min-h-screen  gap-3 rounded   bg-gray-700 p-3">
+      <div className="container flex min-h-screen  gap-3 rounded   bg-white/20 p-3">
         <div className="mx-2 flex flex-col items-center gap-3">
           <a className="text-3xl visited:text-blue-400  " href="#">
-            <FaArrowUp />
+            <HiOutlineArrowUp />
           </a>
           <h2>{data?.votes}</h2>
-          <a className="text-3xl visited:text-blue-400 " href="#">
-            <FaArrowDown />
+          <a className="text-3xl " href="#">
+            <HiOutlineArrowDown />
           </a>
         </div>
         <div className="flex flex-col gap-2 p-1">

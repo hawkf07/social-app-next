@@ -7,7 +7,7 @@ interface ButtonTypes {
 export const Button: React.FC<ButtonTypes> = ({ children }) => {
   return (
     <>
-      <button className="flex items-center gap-2 rounded-md border-gray-500 p-1 px-3 hover:bg-gray-600 focus:border-[1px]">
+      <button className="flex items-center gap-3 rounded-md border-gray-500 p-1 px-3 hover:bg-white/20 focus:border-[1px]">
         {children}
       </button>
     </>

@@ -23,7 +23,7 @@ export default function Input(props: ComponentProps) {
         placeholder={props.placeholder}
         type={inputType}
         onChange={handleChange}
-        className=" p-1 text-gray-800 md:w-96 mobile:w-full"
+        className=" p-1 outline-none bg-transparent  md:w-96 mobile:w-full"
         value={formInputValue}
         name="input-form"
       />

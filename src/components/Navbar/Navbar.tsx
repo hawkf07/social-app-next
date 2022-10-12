@@ -13,7 +13,7 @@ export function Navbar() {
   const changeHandler = (evt: string) => setInputVal(evt);
   const { data } = useSession();
   return (
-    <div className="w-full bg-gray-700">
+    <div className="w-full border-b-2 ">
       <nav className="mx-3 flex h-[10vh] items-center justify-between ">
         <div className="flex w-2/12 items-center justify-around">
           <Link className="text-2xl uppercase" href="/">
@@ -22,7 +22,7 @@ export function Navbar() {
           <h2>Home</h2>
         </div>
         <Form className="flex w-3/5 items-center justify-center ">
-          <div className="flex items-center rounded-md bg-white p-1">
+          <div className="flex items-center gap-2 bg-white/10 p-1 rounded">
             <FaSearch className="text-gray-400" />
             <Input
               placeholder="search post/communities"
